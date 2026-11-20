@@ -740,6 +740,34 @@ def render_text(cards, meta, color, width, indent='  '):
     return '\n'.join(out) + '\n'
 
 
+def render_entries(cards, title='比价与入口'):
+    """远端正文已覆盖商品详情时，只补比价与入口，避免整块重复。"""
+    rows = []
+    for card in cards:
+        advantage = card.get('advantage') or {}
+        if advantage.get('platform') and advantage.get('comparison'):
+            rows.append((card, advantage))
+    if not rows:
+        return ''
+    lines = ['### ' + title, '']
+    for index, (card, advantage) in enumerate(rows, 1):
+        lines.append('%d. **%s** · 比价：%s ¥%s，当前 ¥%s，省 %s%%'
+                     % (index, card.get('title') or '商品', advantage['platform'],
+                        advantage['comparison'],
+                        advantage.get('current') or card.get('price') or '?',
+                        advantage.get('saving_rate') or '?'))
+        entries = []
+        source = comparison_source(advantage.get('source_url'))
+        if source:
+            entries.append('[查看比价来源](%s)' % source.replace('(', '%28').replace(')', '%29'))
+        if card.get('url'):
+            entries.append('[查看商品](%s)' % card['url'])
+        if entries:
+            lines.append('   入口：' + ' ｜ '.join(entries))
+        lines.append('')
+    return '\n'.join(lines).rstrip() + '\n'
+
+
 def render_markdown(cards, meta, omit_answer_extracts=False):
     lines = []
     if meta.get('title'):

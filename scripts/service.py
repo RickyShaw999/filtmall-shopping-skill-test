@@ -243,6 +243,8 @@ def render(result, fmt, max_cards, all_cards=False):
                 out['cards_markdown'] = cards.render_markdown(items, {'title': '', 'footer': ''})
                 if product_links:
                     out['product_links'] = product_links
+            if not products_md:
+                products_md = cards.render_entries(items)
     except Exception:
         out['card_count'] = 0
         out['presentation_status'] = 'failed'
