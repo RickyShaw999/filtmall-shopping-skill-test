@@ -1,0 +1,5 @@
+{
+  "environment": "prod",
+  "control_url": "https://control.filtalgo.com",
+  "agent_id": "production-shopping-commerce"
+}
