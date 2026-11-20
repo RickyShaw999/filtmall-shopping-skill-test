@@ -6,7 +6,7 @@
 
 Filtmall Shopping 是筛电通用托管购物 Agent Skill。默认连接**生产环境**，通过 Python 3.10+ 标准库自动申请和刷新访客身份；会员业务需单独完成用户授权，所有写操作须经用户明确确认。
 
-本目录 Skill 版本为 **2.3.26**。搜索正文逐款展示标题、价格、商品图与 H5 详情文字链接，图片使用简单 Markdown 语法。宿主展示要求统一维护在 [presentation.md](references/presentation.md)；WorkBuddy 和豆包工作还须主动展示 HTML 商品卡片。
+本目录 Skill 版本为 **2.3.27**。搜索正文逐款展示标题、价格、商品图与 H5 详情文字链接，图片使用简单 Markdown 语法。宿主展示要求统一维护在 [presentation.md](references/presentation.md)；WorkBuddy 和豆包工作还须主动展示 HTML 商品卡片。
 
 ## 安装
 

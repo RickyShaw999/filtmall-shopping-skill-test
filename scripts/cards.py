@@ -740,6 +740,36 @@ def render_text(cards, meta, color, width, indent='  '):
     return '\n'.join(out) + '\n'
 
 
+def render_single_header(card):
+    """单款详情固定顺序：标题与价格、商品图、比价、入口前置，长文正文跟在后面。"""
+    price = ('¥' + card['price']) if card.get('price') else '价格未提供'
+    bits = [price]
+    if card.get('spec') and card['spec'] != '默认':
+        bits.append('规格 ' + card['spec'])
+    if card.get('score'):
+        bits.append('评分 ' + card['score'])
+    if AVAILABILITY.get(card.get('availability') or ''):
+        bits.append(AVAILABILITY[card['availability']])
+    lines = ['## 商品信息与入口', '', '**%s** · %s' % (card.get('title') or '商品', ' · '.join(bits)), '']
+    lines.append(markdown_image(card) or '商品图片暂不可用')
+    lines.append('')
+    advantage = card.get('advantage') or {}
+    if advantage.get('platform') and advantage.get('comparison'):
+        lines.append('比价：%s ¥%s，当前 ¥%s，省 %s%%'
+                     % (advantage['platform'], advantage['comparison'],
+                        advantage.get('current') or card.get('price') or '?',
+                        advantage.get('saving_rate') or '?'))
+    entries = []
+    source = comparison_source(advantage.get('source_url'))
+    if source:
+        entries.append('[查看比价来源](%s)' % source.replace('(', '%28').replace(')', '%29'))
+    if card.get('url'):
+        entries.append('[查看商品](%s)' % card['url'])
+    if entries:
+        lines.append('入口：' + ' ｜ '.join(entries))
+    return '\n'.join(lines).rstrip() + '\n'
+
+
 def render_entries(cards, title='比价与入口'):
     """远端正文已覆盖商品详情时，只补比价与入口，避免整块重复。"""
     rows = []

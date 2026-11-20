@@ -161,6 +161,7 @@ def render(result, fmt, max_cards, all_cards=False):
     cart_md = ''
     md_sections_by_field = {}
     products_md = ''
+    single_header = ''
     if 'customer_service_snapshots' in result:
         out['customer_service_status'], out['customer_service_count'], customer_service_md = customer_service_cards.render(result['customer_service_snapshots'], 'md')
         out['customer_service_content'] = (
@@ -229,7 +230,10 @@ def render(result, fmt, max_cards, all_cards=False):
         out['card_count'] = len(items)
         if items:
             has_answer = bool(out['answer'].strip())
-            if not (has_answer and all(cards.answer_covers_card(item, out['answer']) for item in items)):
+            covered = has_answer and all(cards.answer_covers_card(item, out['answer']) for item in items)
+            if not covered and has_answer and len(items) == 1:
+                single_header = cards.render_single_header(items[0])
+            elif not covered:
                 products_md = cards.render_markdown(
                     items,
                     {'title': '商品信息与入口' if has_answer else '', 'footer': ''},
@@ -243,13 +247,14 @@ def render(result, fmt, max_cards, all_cards=False):
                 out['cards_markdown'] = cards.render_markdown(items, {'title': '', 'footer': ''})
                 if product_links:
                     out['product_links'] = product_links
-            if not products_md:
+            if not products_md and not single_header:
                 products_md = cards.render_entries(items)
     except Exception:
         out['card_count'] = 0
         out['presentation_status'] = 'failed'
         out.setdefault('presentation_errors', []).append('product_render_failed')
-    display_content = build_display_markdown(out['answer'], [
+    display_answer = (single_header + '\n' + out['answer']) if single_header else out['answer']
+    display_content = build_display_markdown(display_answer, [
         products_md,
         cart_md,
         address_md,
