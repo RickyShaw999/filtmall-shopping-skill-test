@@ -126,3 +126,6 @@ current 还须有远端的 `authorization_binding`（完整匹配64位小写十�
 内部 `customer_service_snapshots` 保留授权验证字段；文件只展示入口，不输出 authorization_binding、authorization_expires_at、link_origins、publication。结果提供 customer_service_status、customer_service_count、customer_service_file（`md` 输出标准 Markdown 链接并合入 `display_file`），widget/html 分别另有 customer_service_fragment_file/customer_service_page_file。可信宿主可传 customer_service_path 或 out_dirs.customer_service_path；仅有客服无正文也会写私有文件。
 
 宿主支持对话内联时，客服与地址采用同一策略：`format=widget`后把本轮`customer_service_fragment_file`原样交给实际内联展示能力，嵌入答复正文下方。文件后缀在widget/html两种模式下都可能为`.html`，不据后缀推断展示位置。仅打开浏览器/侧边文件或给出下载链接不等于内联；独立页面仅用于用户指定或宿主确认无法内联的情况。授权阻断且没有本轮产物时，不展示历史页代替结果。
+## Markdown 链接解析（2.3.3）
+
+公开会话业务仍只使用 Control。Markdown 产物落盘前，额外匿名调用 `https://filtalgo.com/gateway/mcp` 的 `shopping.navigation.resolve_url_link`，参数为 `{"url":"原始生产 H5 链接"}`，使用 MCP `2026-07-28`。不发送访客 token、会员 session 或 Control 凭据，不直连后端 service，不跟随重定向。仅接受 HTTPS 的 `m.filtalgo.com` H5 地址和 `wxaurl.cn`／`wxmpurl.cn` 小程序地址；无效响应或错误保留原链接。预发、开发链接不发送到生产 Gateway。

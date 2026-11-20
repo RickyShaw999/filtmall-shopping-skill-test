@@ -3,7 +3,7 @@ name: filtmall-shopping
 description: Delegate product discovery and shopping questions to the production Filtalgo hosted agent through Control's public guest and conversation APIs. Run scripts/service.py in one-shot Markdown mode by default; it manages guest identity, waits for terminal state, and outputs verified Markdown answers and commerce artifacts. Supports follow-up, resumption, cancellation, clearing, and optional HTML card enhancements. Member transactions require separate authorization and explicit user confirmation.
 license: Apache-2.0
 metadata:
-  version: "2.3.28"
+  version: "2.3.29"
   openclaw:
     requires:
       bins:
@@ -31,6 +31,8 @@ python3 "<skill-dir>/scripts/service.py" --once --format md
 ```
 
 ## 正文呈现要求
+
+- **电脑与手机双入口**：服务在写入 Markdown 产物前，匿名调用公开 Gateway 的 `shopping.navigation.resolve_url_link`，将严格匹配 `https://m.filtalgo.com/` 的业务文字链接转换为电脑 H5 与手机小程序双入口。完整展示 `display_file` 中已经生成的入口，不再转换、改写或追加入口说明；转换成功时，以下“目标保持原值”要求允许由该步骤替换。失败保留原 H5 链接，不编造小程序地址。授权链接、图片与代码不转换；同轮相同链接只解析一次，最多 10 个不同链接，完整双入口重复处理保持不变。可选 HTML 卡片继续使用原 H5 入口。
 
 - **所有回复统一使用文字链接**：本 Skill 的所有用户可见消息（含进度提示、结果、追问、授权、错误与恢复说明）中的链接，都使用 Markdown 可点击文字，文字简短且说明用途，如“查看商品详情”“前往授权”“打开购物车”“前往收银台”“预览商品卡片”。不得直接展示原始 URL，也不得把 URL 当链接文字、放入尖括号、行内代码或代码块，或在文字链接后重复附上原始地址。目标 URL 必须完整保留可信来源原值及参数；“原样展示链接”仅指目标不变，不要求显示原始地址。即使产物或工具答复包含裸 URL，转为用户回复时也须应用此规则；图片仍使用 Markdown 图片语法展示，不显示图片地址。
 - **统一读取 `display_file` 并在聊天正文呈现**：请求返回 `status="completed"` 后，完整读取本轮 `display_file`（UTF-8 Markdown，已合并本轮公开答复、单列商品信息、商城快照与真实入口），直接在聊天回复正文中呈现必要结果，无需猜测拼接多个产物文件。

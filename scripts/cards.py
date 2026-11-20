@@ -770,6 +770,40 @@ def render_single_header(card):
     return '\n'.join(lines).rstrip() + '\n'
 
 
+def render_reused(cards, saved_at):
+    """复用同一会话上一轮已展示的商品事实；明确标注快照时间，不冒充本轮查询。"""
+    if not cards:
+        return ''
+    lines = ['### 上一轮商品信息（快照 %s，价格库存可能变化）' % saved_at, '']
+    for index, card in enumerate(cards, 1):
+        price = ('¥' + card['price']) if card.get('price') else '价格未提供'
+        bits = [price]
+        if card.get('spec') and card['spec'] != '默认':
+            bits.append('规格 ' + card['spec'])
+        if card.get('score'):
+            bits.append('评分 ' + card['score'])
+        lines.append('%d. **%s** · %s' % (index, card.get('title') or '商品', ' · '.join(bits)))
+        lines.append('')
+        lines.append('   ' + (markdown_image(card) or '商品图片暂不可用'))
+        lines.append('')
+        advantage = card.get('advantage') or {}
+        if advantage.get('platform') and advantage.get('comparison'):
+            lines.append('   比价：%s ¥%s，当前 ¥%s，省 %s%%'
+                         % (advantage['platform'], advantage['comparison'],
+                            advantage.get('current') or card.get('price') or '?',
+                            advantage.get('saving_rate') or '?'))
+        entries = []
+        source = comparison_source(advantage.get('source_url'))
+        if source:
+            entries.append('[查看比价来源](%s)' % source.replace('(', '%28').replace(')', '%29'))
+        if card.get('url'):
+            entries.append('[查看商品](%s)' % card['url'])
+        if entries:
+            lines.append('   入口：' + ' ｜ '.join(entries))
+        lines.append('')
+    return '\n'.join(lines).rstrip() + '\n'
+
+
 def render_entries(cards, title='比价与入口'):
     """远端正文已覆盖商品详情时，只补比价与入口，避免整块重复。"""
     rows = []

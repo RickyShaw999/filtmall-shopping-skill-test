@@ -37,6 +37,7 @@ import logistics_cards  # noqa: E402
 import customer_service_cards  # noqa: E402
 import commerce_ui  # noqa: E402
 import commerce_render  # noqa: E402
+import link_response  # noqa: E402
 from update_check import UpdateChecker  # noqa: E402
 
 ClientError = client.ClientError
@@ -152,6 +153,73 @@ def build_display_markdown(answer, sections):
     return ('\n\n'.join(parts) + '\n') if parts else ''
 
 
+
+CARD_CACHE_FIELDS = ('title', 'price', 'spec', 'score', 'availability', 'thumbnail',
+                     'url', 'goods_id', 'sku_id', 'advantage')
+ORDINAL = {'一': 1, '二': 2, '三': 3, '四': 4, '五': 5, '六': 6,
+           '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6}
+
+
+def _cache_file(client, conversation):
+    directory = getattr(getattr(client, 'store', None), 'directory', None)
+    if not isinstance(directory, (str, os.PathLike)) or not isinstance(conversation, str) or not conversation:
+        return None
+    digest = hashlib.sha256(conversation.encode('utf-8')).hexdigest()[:32]
+    folder = Path(directory) / 'product-cache'
+    try:
+        folder.mkdir(mode=0o700, parents=True, exist_ok=True)
+    except OSError:
+        return None
+    return folder / (digest + '.json')
+
+
+def save_card_cache(client, conversation, items):
+    path = _cache_file(client, conversation)
+    if path is None or not items:
+        return
+    payload = {'saved_at': time.strftime('%Y-%m-%d %H:%M'),
+               'cards': [{key: item.get(key) for key in CARD_CACHE_FIELDS} for item in items[:5]]}
+    tmp = path.with_suffix('.tmp')
+    try:
+        tmp.write_text(json.dumps(payload, ensure_ascii=False), encoding='utf8')
+        tmp.replace(path)
+    except OSError:
+        pass
+
+
+def load_card_cache(client, conversation):
+    path = _cache_file(client, conversation)
+    if path is None or not path.exists():
+        return None
+    try:
+        return json.loads(path.read_text(encoding='utf8'))
+    except (OSError, ValueError):
+        return None
+
+
+def select_reused(cached, text):
+    cards_list = (cached or {}).get('cards') or []
+    if not cards_list:
+        return []
+    flat = re.sub(r'\s+', '', text or '')
+    picks, seen = [], set()
+    for match in re.finditer(r'第\s*([一二三四五六1-6])\s*(?:个|款|件|条)?', flat):
+        index = ORDINAL.get(match.group(1))
+        if index and 1 <= index <= len(cards_list):
+            card = cards_list[index - 1]
+            key = (card.get('goods_id'), card.get('sku_id'), card.get('title'))
+            if key not in seen:
+                seen.add(key)
+                picks.append(card)
+    if picks:
+        return picks
+    for card in cards_list:
+        title = re.sub(r'\s+', '', card.get('title') or '')
+        if title and len(title) >= 4 and title in flat:
+            return [card]
+    return []
+
+
 def render(result, fmt, max_cards, all_cards=False):
     budget = cards.ImageBudget()
     out = {'answer': answer_text(result), '_format': fmt, '_image_budget': budget}
@@ -161,7 +229,6 @@ def render(result, fmt, max_cards, all_cards=False):
     cart_md = ''
     md_sections_by_field = {}
     products_md = ''
-    single_header = ''
     if 'customer_service_snapshots' in result:
         out['customer_service_status'], out['customer_service_count'], customer_service_md = customer_service_cards.render(result['customer_service_snapshots'], 'md')
         out['customer_service_content'] = (
@@ -230,10 +297,7 @@ def render(result, fmt, max_cards, all_cards=False):
         out['card_count'] = len(items)
         if items:
             has_answer = bool(out['answer'].strip())
-            covered = has_answer and all(cards.answer_covers_card(item, out['answer']) for item in items)
-            if not covered and has_answer and len(items) == 1:
-                single_header = cards.render_single_header(items[0])
-            elif not covered:
+            if not (has_answer and all(cards.answer_covers_card(item, out['answer']) for item in items)):
                 products_md = cards.render_markdown(
                     items,
                     {'title': '商品信息与入口' if has_answer else '', 'footer': ''},
@@ -247,14 +311,11 @@ def render(result, fmt, max_cards, all_cards=False):
                 out['cards_markdown'] = cards.render_markdown(items, {'title': '', 'footer': ''})
                 if product_links:
                     out['product_links'] = product_links
-            if not products_md and not single_header:
-                products_md = cards.render_entries(items)
     except Exception:
         out['card_count'] = 0
         out['presentation_status'] = 'failed'
         out.setdefault('presentation_errors', []).append('product_render_failed')
-    display_answer = (single_header + '\n' + out['answer']) if single_header else out['answer']
-    display_content = build_display_markdown(display_answer, [
+    display_content = build_display_markdown(out['answer'], [
         products_md,
         cart_md,
         address_md,
@@ -472,6 +533,23 @@ def _handle(client, request, default_format, default_out_dir, update_checker, co
         payment_links = payload.get('payment_links', []) if result.get('checkouts') else extract_payment_links(payload.get('answer'))
         if payment_links:
             payload['payment_links'] = payment_links
+        link_response.finalize_payload(payload)
+        try:
+            current_items = cards.collect(result, cards.DEFAULT_URL_BASE)
+        except Exception:
+            current_items = []
+        try:
+            if current_items:
+                save_card_cache(client, conversation, current_items)
+            elif payload.get('display_content'):
+                cached = load_card_cache(client, conversation)
+                reused = cards.render_reused(select_reused(cached, request.get('text') or ''),
+                                             (cached or {}).get('saved_at') or '')
+                if reused:
+                    payload['display_content'] = reused + '\n' + payload['display_content']
+                    payload['card_source'] = 'previous-turn'
+        except Exception:
+            pass
         write_outputs(payload, request, default_out_dir)
     return payload
 
