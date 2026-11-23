@@ -3,7 +3,7 @@ name: filtmall-shopping
 description: Delegate product discovery and shopping questions to the production Filtalgo hosted agent through Control's public guest and conversation APIs. Run scripts/service.py in one-shot Markdown mode by default; it manages guest identity, waits for terminal state, and outputs verified Markdown answers and commerce artifacts. Supports follow-up, resumption, cancellation, clearing, and optional HTML card enhancements. Member transactions require separate authorization and explicit user confirmation.
 license: Apache-2.0
 metadata:
-  version: "2.3.29"
+  version: "2.3.35"
   openclaw:
     requires:
       bins:

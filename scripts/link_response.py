@@ -83,10 +83,12 @@ def closing(text, start, left, right):
 
 
 def rewrite_markdown(markdown, resolve=resolve_url, cache=None, max_links=10):
-    """Preserve images, code, OAuth URLs, unsafe URLs and existing entry pairs."""
+    """Preserve images, code, OAuth URLs, unsafe URLs and existing entry pairs.
+
+    可解析的 H5 业务链接改写成紧凑双入口：`[电脑端](…) ｜ [手机端](…)`，
+    已生成的入口不再改写，保证多次调用幂等。
+    """
     cache = {} if cache is None else cache
-    prefix = '如果你使用的是电脑，请你点击'
-    middle = '；如果你使用的是手机，请你点击'
     fence = None
     output = []
     for line in markdown.splitlines(keepends=True):
@@ -123,15 +125,13 @@ def rewrite_markdown(markdown, resolve=resolve_url, cache=None, max_links=10):
             if end < 0:
                 pieces.append(line[i]); i += 1
                 continue
+            label_text = line[start+1:label]
             url = line[label+2:end]
             original = line[i:end+1]
-            mobile_start = end + 1 + len(middle + '[这个链接](')
-            mobile_end = closing(line, mobile_start, '(', ')')
-            generated = (line[:start].endswith(prefix) and line[start+1:label] == '这个链接'
-                         and line.startswith(middle + '[这个链接](', end+1)
-                         and mobile_end >= 0 and line[mobile_end+1:mobile_end+2] == '。'
-                         and safe_url(line[mobile_start:mobile_end], ('wxaurl.cn', 'wxmpurl.cn')))
-            if (not image and not generated and safe_url(url, ('m.filtalgo.com',))
+            if not image and label_text in ('电脑端', '手机端'):
+                pieces.append(original); i = end + 1
+                continue
+            if (not image and safe_url(url, ('m.filtalgo.com',))
                     and urlsplit(url).path.rstrip('/') not in ('/oauth/device', '/pages/oauth/device')):
                 if url not in cache and len(cache) < max_links:
                     try:
@@ -140,8 +140,7 @@ def rewrite_markdown(markdown, resolve=resolve_url, cache=None, max_links=10):
                         cache[url] = None
                 value = cache.get(url)
                 if value:
-                    original = (prefix + '[这个链接](' + value['h5_url'] + ')' + middle
-                                + '[这个链接](' + value['mp_url'] + ')。')
+                    original = '[电脑端](%s) \uFF5C [手机端](%s)' % (value['h5_url'], value['mp_url'])
             pieces.append(original)
             i = end + 1
         output.append(''.join(pieces))
