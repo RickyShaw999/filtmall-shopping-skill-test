@@ -15,6 +15,7 @@
 | `latest_version` | 正式 Release 的三段版本号，去除可选的 `v` 前缀；比较成功时提供 |
 | `release_tag` | 原始 Release tag，保留可选的 `v`，用于链接、记录选择及固定安装版本 |
 | `release_url` | 固定官方仓库对应原始 tag 的 Release 页面；比较成功时提供 |
+| `host` | 可选。宿主枚举 `today\|workbuddy\|doubao\|qianwen\|lingguang`，缺省 `default`；识别到宿主时格式由路由表固定，`default` 沿用 `--format`；同一会话首次确定后锁定 |
 | `checked_at` | 本次检查的 UTC 时间，ISO 8601；异常兜底结果可能缺失 |
 | `notify` | 仅 `available` 且未被提醒选择抑制时为 `true` |
 | `message` | 发现新版时的简短说明，可缺失 |

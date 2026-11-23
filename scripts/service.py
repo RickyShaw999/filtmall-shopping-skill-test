@@ -31,6 +31,7 @@ SKILL_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SKILL_DIR / 'scripts'))
 
 import cards  # noqa: E402
+import hosts  # noqa: E402
 import client  # noqa: E402
 import address_cards  # noqa: E402
 import logistics_cards  # noqa: E402
@@ -218,6 +219,70 @@ def select_reused(cached, text):
         if title and len(title) >= 4 and title in flat:
             return [card]
     return []
+
+
+def skill_version():
+    """读取 SKILL.md 的 metadata.version；失败返回 None。"""
+    try:
+        text = (Path(__file__).resolve().parents[1] / 'SKILL.md').read_text(encoding='utf8')
+    except OSError:
+        return None
+    match = re.search(r'^\s+version:\s*"([^"]+)"', text, re.M)
+    return match.group(1) if match else None
+
+
+def record_call(client, payload, host, host_source, fmt):
+    """每次调用追加一行 JSONL，便于统计宿主维度的失败率；不记录用户文本。"""
+    directory = getattr(getattr(client, 'store', None), 'directory', None)
+    if not isinstance(directory, (str, os.PathLike)) or os.environ.get('FILTALGO_NO_LOG') == '1':
+        return
+    card_count = payload.get('card_count') or 0
+    record = {
+        'ts': time.strftime('%Y-%m-%dT%H:%M:%S'),
+        'host': host,
+        'host_source': host_source,
+        'format': fmt,
+        'card_count': card_count,
+        'card_source': payload.get('card_source') or ('new' if card_count else 'none'),
+        'status': payload.get('status'),
+        'error_code': (payload.get('error') or {}).get('code') if isinstance(payload.get('error'), dict) else None,
+        'version': skill_version(),
+    }
+    try:
+        path = Path(directory) / 'calls.jsonl'
+        with open(path, 'a', encoding='utf8') as stream:
+            stream.write(json.dumps(record, ensure_ascii=False) + '\n')
+    except OSError:
+        pass
+
+
+def resolve_host(request, client, conversation):
+    """宿主解析：会话锁定 → 请求字段 → 环境变量 → default。"""
+    raw = request.get('host')
+    locked = None
+    getter = getattr(client, 'locked_host', None)
+    if callable(getter):
+        try:
+            locked = hosts.normalize(getter(conversation))
+        except Exception:
+            locked = None
+    if locked:
+        return locked, 'state', raw
+    host = hosts.normalize(raw)
+    source = 'request'
+    if not host:
+        host = hosts.normalize(os.environ.get('FILTALGO_HOST'))
+        source = 'env'
+    if not host:
+        host, source = 'default', 'default'
+    if host != 'default':
+        remember = getattr(client, 'remember_host', None)
+        if callable(remember):
+            try:
+                remember(conversation, host)
+            except Exception:
+                pass
+    return host, source, raw
 
 
 def render(result, fmt, max_cards, all_cards=False):
@@ -463,7 +528,17 @@ def _handle(client, request, default_format, default_out_dir, update_checker, co
         raise ClientError('INVALID_OP', '未知 op：%s（可用：%s）' % (op, '/'.join(OPS)))
     if not isinstance(conversation, str) or not conversation.strip():
         raise ClientError('INVALID_CONVERSATION', '每个请求都必须带非空 conversation。')
-    fmt = request.get('format') or default_format
+    host, host_source, _raw_host = resolve_host(request, client, conversation)
+    if client is not None:
+        client.host = host
+    if host == 'default':
+        # 未识别宿主：保留 2.3.x 行为，由请求或 CLI 决定格式。
+        fmt = request.get('format') or default_format
+    else:
+        # 已识别宿主：格式由路由表固定，请求里的 format 默认忽略。
+        fmt = hosts.profile(host)['format']
+        if os.environ.get('FILTALGO_FORMAT_OVERRIDE') == '1' and request.get('format'):
+            fmt = request['format']
     if fmt not in FORMATS:
         raise ClientError('INVALID_FORMAT', 'format 只能是 ' + '/'.join(FORMATS))
     if op in ('send', 'resume'):
@@ -521,7 +596,8 @@ def _handle(client, request, default_format, default_out_dir, update_checker, co
         if value.get('pending') and value.get('last_error'):
             out['last_error'] = value['last_error']['code']
         return out
-    payload = {'ok': result.get('ok', True), 'status': result.get('status'), 'conversation': conversation}
+    payload = {'ok': result.get('ok', True), 'status': result.get('status'), 'conversation': conversation,
+               'host': host, 'host_source': host_source}
     for key in ('authorization_url', 'message', 'error', 'presentation_status'):
         if result.get(key):
             payload[key] = result[key]
@@ -542,15 +618,37 @@ def _handle(client, request, default_format, default_out_dir, update_checker, co
             if current_items:
                 save_card_cache(client, conversation, current_items)
             elif payload.get('display_content'):
-                cached = load_card_cache(client, conversation)
-                reused = cards.render_reused(select_reused(cached, request.get('text') or ''),
-                                             (cached or {}).get('saved_at') or '')
+                # 第二级：会话库里已有的商品块（真实文档，优先于本地快照）
+                carried = []
+                carry = result.get('carry') if isinstance(result.get('carry'), dict) else None
+                if carry:
+                    try:
+                        carried = client.carried_product_documents(**carry)
+                    except Exception:
+                        carried = []
+                reused = ''
+                if carried:
+                    try:
+                        carried_items = cards.collect({'context_documents': carried}, cards.DEFAULT_URL_BASE)
+                    except Exception:
+                        carried_items = []
+                    if carried_items:
+                        reused = cards.render_reused(carried_items, '本会话前几轮', title='会话内已有商品信息')
+                        payload['card_source'] = 'session-library'
+                        save_card_cache(client, conversation, carried_items)
+                # 第三级：本地快照缓存
+                if not reused:
+                    cached = load_card_cache(client, conversation)
+                    reused = cards.render_reused(select_reused(cached, request.get('text') or ''),
+                                                 (cached or {}).get('saved_at') or '')
+                    if reused:
+                        payload['card_source'] = 'previous-turn'
                 if reused:
                     payload['display_content'] = reused + '\n' + payload['display_content']
-                    payload['card_source'] = 'previous-turn'
         except Exception:
             pass
         write_outputs(payload, request, default_out_dir)
+        record_call(client, payload, host, host_source, fmt)
     return payload
 
 

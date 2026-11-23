@@ -3,7 +3,7 @@ name: filtmall-shopping
 description: Delegate product discovery and shopping questions to the production Filtalgo hosted agent through Control's public guest and conversation APIs. Run scripts/service.py in one-shot Markdown mode by default; it manages guest identity, waits for terminal state, and outputs verified Markdown answers and commerce artifacts. Supports follow-up, resumption, cancellation, clearing, and optional HTML card enhancements. Member transactions require separate authorization and explicit user confirmation.
 license: Apache-2.0
 metadata:
-  version: "2.3.35"
+  version: "2.4.3"
   openclaw:
     requires:
       bins:
@@ -27,8 +27,21 @@ python3 "<skill-dir>/scripts/service.py" --once --format md
 将单行 UTF-8 JSON 写入进程标准输入（用户原始文本仅作为 JSON 字段传入，绝不拼接到 Shell 命令字符串），读取标准输出的一行 JSON 应答：
 
 ```json
-{"conversation":"<当前对话标识>","text":"推荐100元以内的保湿面膜，只查询。"}
+{"conversation":"<当前对话标识>","text":"推荐100元以内的保湿面膜，只查询。","host":"workbuddy"}
 ```
+
+**必须从下表选一个 `host` 值**（只认这六个，不要自造）：
+
+| 宿主显示名 | `host` 取值 |
+| --- | --- |
+| Today | `today` |
+| WorkBuddy | `workbuddy` |
+| 豆包工作 | `doubao` |
+| 千问办公 | `qianwen` |
+| 灵光 | `lingguang` |
+| 不确定 / 其他 | `default` |
+
+`host` 决定本轮展示格式（见 [references/presentation.md](references/presentation.md)），**不再由本文件或模型逐轮挑 `format`**：识别到宿主时格式以路由表为准，`default` 才沿用旧的 `--format` 行为。同一 `conversation` 首次确定后即锁定，后续轮次不必重复传；若前后不一致，以首次为准。
 
 ## 正文呈现要求
 

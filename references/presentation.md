@@ -45,6 +45,8 @@
 
 服务支持 `md`（默认）、`widget`（内联 HTML 片段）和 `html`（完整独立页面）。无论选择哪种格式，本轮基础正文始终写入 `display_file`，全部历史字段继续保留兼容：
 
+**格式由路由表决定**：`service.py` 按请求 `host`（见 SKILL.md 的下表）取固定格式，`workbuddy`→`html`、其余→`md`；识别到宿主时请求里的 `format` 默认被忽略（仅 `FILTALGO_FORMAT_OVERRIDE=1` 调试时生效），`host=default` 才沿用旧的 `--format` 行为。
+
 | 适用场景 | 请求参数 | 统一正文 | 商品兼容产物 | 购物车 | 结算 / 售后 | 地址 / 物流 / 客服 |
 | --- | --- | --- | --- | --- | --- | --- |
 | 默认正文展示（通用） | `"format":"md"`（默认） | `display_file` | `html_file`（`.cards.md`） | `cart_file`（`.cart.md`） | `checkout_file` / `after_sale_file` | `address_file` / `logistics_file` / `customer_service_file` |

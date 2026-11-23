@@ -770,11 +770,11 @@ def render_single_header(card):
     return '\n'.join(lines).rstrip() + '\n'
 
 
-def render_reused(cards, saved_at):
-    """复用同一会话上一轮已展示的商品事实；明确标注快照时间，不冒充本轮查询。"""
+def render_reused(cards, saved_at, title='上一轮商品信息'):
+    """复用同一会话已展示的商品事实；明确标注来源，不冒充本轮查询。"""
     if not cards:
         return ''
-    lines = ['### 上一轮商品信息（快照 %s，价格库存可能变化）' % saved_at, '']
+    lines = ['### %s（快照 %s，价格库存可能变化）' % (title, saved_at), '']
     for index, card in enumerate(cards, 1):
         price = ('¥' + card['price']) if card.get('price') else '价格未提供'
         bits = [price]
