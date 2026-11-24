@@ -1,12 +1,16 @@
 # Filtmall Shopping Skill
 
+简体中文 ｜ [English](README_en.md)
+
 在对话里完成选品、比价、加购、下单与售后跟进的托管购物技能。
 
-[![License](https://img.shields.io/github/license/filtalgo/Filtmall-Shopping-Skill?style=for-the-badge)](LICENSE)
-[![Release](https://img.shields.io/github/v/release/filtalgo/Filtmall-Shopping-Skill?style=for-the-badge)](https://github.com/filtalgo/Filtmall-Shopping-Skill/releases)
-[![Python](https://img.shields.io/badge/python-3.10%2B-blue?style=for-the-badge)](SKILL.md)
-[![Stars](https://img.shields.io/github/stars/filtalgo/Filtmall-Shopping-Skill?style=for-the-badge)](https://github.com/filtalgo/Filtmall-Shopping-Skill)
-[![skills.sh](https://skills.sh/b/filtalgo/filtmall-shopping-skill?style=for-the-badge)](https://skills.sh/filtalgo/filtmall-shopping-skill)
+[![Release](https://img.shields.io/github/v/release/filtalgo/filtmall-shopping-skill?logo=github)](https://github.com/filtalgo/filtmall-shopping-skill/releases)
+[![License](https://img.shields.io/github/license/filtalgo/filtmall-shopping-skill?logo=apache)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.10%2B-3776AB?logo=python&logoColor=white)](SKILL.md)
+[![Stars](https://img.shields.io/github/stars/filtalgo/filtmall-shopping-skill?logo=github)](https://github.com/filtalgo/filtmall-shopping-skill)
+[![Forks](https://img.shields.io/github/forks/filtalgo/filtmall-shopping-skill?logo=github)](https://github.com/filtalgo/filtmall-shopping-skill/forks)
+[![Contributors](https://img.shields.io/github/contributors/filtalgo/filtmall-shopping-skill?logo=github)](https://github.com/filtalgo/filtmall-shopping-skill/graphs/contributors)
+[![skills.sh](https://skills.sh/b/filtalgo/filtmall-shopping-skill)](https://skills.sh/filtalgo/filtmall-shopping-skill)
 
 ## 前置条件
 
@@ -64,3 +68,7 @@ Skill 通过 Control 的公开访客与会话接口，把请求委托给服务�
 ## 许可证
 
 [Apache-2.0](LICENSE)
+
+---
+
+[筛电官网](https://www.filtalgo.com/)
