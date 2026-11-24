@@ -21,7 +21,7 @@
 Filtmall is built around two core pillars: **Open to Personal Agents by Design** and **Extreme Value-for-Money**.
 
 - **Native open access for Personal Agents**: Built specifically to serve Personal Agents with structured product facts, price references, and fulfillment APIs, without the anti-bot blocks common on traditional marketplaces.
-- **Factory-direct OBM supply, zero platform ad fees**: Connects directly with vetted OBMs (Original Brand Manufacturers) and charges zero advertising or paid-traffic fees — most items are priced at roughly **1/3 to 2/3** of comparable specifications on traditional platforms.
+- **Factory-direct OBM supply, zero platform ad fees**: Connects directly with vetted OBMs (Original Brand Manufacturers) and charges zero advertising or paid-traffic fees — most items are priced at roughly **1/3 to 2/3** of comparable specifications on traditional platforms, delivering extreme value for money.
 - **No paid rankings — matched purely to your requirements**: Ranked strictly by requirement fit and value rather than ad spend; state your budget, specs, and use case in plain language to get unit prices, ingredients/materials, and fit reasons in seconds.
 - **Curated quality, zero-friction browsing**: Products are vetted for both same-spec price advantage and manufacturer qualification, reputation, or sample feedback (spanning beauty & personal care, food, bags, and expanding with demand). Browse and compare with no login or API key; every transaction confirms first and pays on the official checkout page.
 
