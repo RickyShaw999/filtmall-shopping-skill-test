@@ -1,5 +1,9 @@
 <p align="center">
-  <img src="assets/logo.png" alt="Filtmall Logo" width="180">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="assets/logo-light.png">
+    <img alt="Filtmall Logo" src="assets/logo-light.png" width="200">
+  </picture>
 </p>
 
 <h1 align="center">Filtmall Shopping Skill · 筛电购物 Skill</h1>
