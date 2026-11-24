@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.png" alt="Filtmall Logo" width="180">
+</p>
+
 <h1 align="center">Filtmall Shopping Skill</h1>
 
 <p align="center">Tell your AI assistant your budget and requirements — research products clearly and buy high-value goods directly through Filtmall.</p>
@@ -14,7 +18,7 @@
   <a href="https://skills.sh/filtalgo/Filtmall-Shopping-Skill"><img alt="skills.sh" src="https://skills.sh/b/filtalgo/Filtmall-Shopping-Skill"></a>
 </p>
 
-**Filtmall (筛电)** is a platform-level **Business Agent** built for **Personal Agents**, as well as an agent-native e-commerce platform focused on extreme value-for-money. Once installed, your Personal Agent connects directly to Filtmall's backend shopping Agent to discover products, verify specs and ingredients, compare prices, place orders, and track after-sales in chat — without switching apps or digging through coupon math. Product details, prices, and inventory are determined by live service responses.
+**Filtmall (筛电)** is a platform-level **Business Agent** built for **Personal Agents**, as well as an agent-native e-commerce platform focused on extreme value-for-money. Once installed, your Personal Agent connects via this Skill (`filtmall-shopping`) directly to Filtmall's backend shopping Agent to discover products, verify specs and ingredients, compare prices, place orders, and track after-sales in chat — without switching apps or digging through coupon math. Product details, prices, and inventory are determined by live service responses.
 
 ## Why Filtmall
 
@@ -32,21 +36,26 @@ Filtmall is built around two core pillars: **Open to Personal Agents by Design**
 | Pricing Basis | Multi-layer distributors + platform ad spend | Direct OBM factories + zero platform ad fees |
 | Decision Speed | Manual scrolling across pages, reviews, and coupons | AI summarizes specs, ingredients, and price references in seconds |
 
-## Prerequisites
-
-- Python 3.10+
-- Node.js 22.20+ with GitHub access for `npx` installation (or copy the full directory manually for offline use)
-- Browsing, search, and ingredient lookups require no login; member operations require separate authorization
-
 ## Installation
 
+Choose the easiest method for your AI assistant (requires Python 3.10+ locally):
+
+| AI Assistant / Environment | Recommended Installation |
+| --- | --- |
+| **WorkBuddy** | One-click install via [WorkBuddy Skill Store · Filtmall Shopping](https://www.workbuddy.cn/share/asset?extra_from=&resource_type=link&shareCode=cs261124Dt1WMAXrsiMLBGjMOhQz3c&share_way=link&sig=bDrtltW2Ysncjump) |
+| **SkillHub** | Install via [SkillHub · filtmall-agentic-shopping](https://skillhub.cn/skills/org-r0hb81co/filtmall-agentic-shopping) |
+| **skills.sh** | View on [skills.sh · filtmall-shopping](https://www.skills.sh/filtalgo/filtmall-shopping-skill/filtmall-shopping) |
+| **Zero-CLI (General AI Agents)** | Send this repo URL to your AI and ask: "Please install this shopping skill: `https://github.com/filtalgo/Filtmall-Shopping-Skill`" |
+| **CLI (Claude Code / Codex / Cursor, etc.)** | Use the `npx` command below (requires Node.js 22.20+) |
+| **Offline / No Node.js** | Download a package from [GitHub Releases](https://github.com/filtalgo/Filtmall-Shopping-Skill/releases) and copy it into your host's skill folder as `filtmall-shopping` (preserving `data/`, `third_party/`, and `LICENSE`) |
+
+Global CLI installation (recommended):
+
 ```bash
-npx skills add filtalgo/Filtmall-Shopping-Skill --skill filtmall-shopping
+npx skills add filtalgo/Filtmall-Shopping-Skill --skill filtmall-shopping -g
 ```
 
-Run without flags to pick the skill and target agent interactively; pass `-g` for global installation or `-a claude-code` to target a specific host.
-
-Manual installation: copy the entire repository into your host's skill directory as `filtmall-shopping`, preserving `data/`, `third_party/`, and `LICENSE`.
+Omit `-g` for project-local installation; pass `-a claude-code` to target a specific host.
 
 ## Quick Start
 
@@ -57,7 +66,7 @@ Once installed, try asking in chat:
 - Compare the specs, ingredients, and prices of the first and third options
 - Show my shopping cart / Check the shipping status of this order
 
-Connects to the production environment by default.
+Connects to the production environment by default. Browsing, search, comparison, and ingredient lookups require no login; member operations require separate authorization and explicit confirmation before writes.
 
 ## Capabilities
 
@@ -80,22 +89,37 @@ Available capabilities depend on the target Agent configuration, business servic
 - **Local isolation**: Credentials and pending states are kept in a private local state directory and never written to chat or logs.
 - **Idempotent recovery**: On uncertain network outcomes, the Skill checks status first rather than blindly re-sending write requests.
 
-## Configuration & Testing
+## About Filtmall
+
+Filtmall is built by **Filtmall (Beijing) Intelligent Technology Co., Ltd.** (technical brand: Filtalgo) by a founding team from Peking University, Tsinghua University, the Chinese Academy of Sciences, and serial e-commerce entrepreneurs. Currently partnered with 20+ vetted source brands (including 3 publicly listed companies), Filtmall is building an extreme value-for-money agent-native e-commerce platform for Personal Agents.
+
+- Website: [www.filtalgo.com](https://www.filtalgo.com/)
+- Web Store (H5): [m.filtalgo.com](https://m.filtalgo.com/)
+- WeChat Mini-Program: Search "筛电商城" in WeChat
+- Huawei Xiaoyi: [Xiaoyi Agent Store · Filtmall Shopping](https://xiaoyi.huawei.com/s-appagent/?id=agent60c715a710674a48907529db6d0c00f1&type=1&from=others)
+
+<details>
+<summary>Developer & Integration Guide (Configuration, Architecture, Tests & Protocol Docs)</summary>
+
+### Configuration
 
 - **Environment**: Production by default. Pass both `--control-url` and `--agent-id` to switch to another open environment.
 - **Host identifier**: Supports `host` values `today` / `workbuddy` / `doubao` / `qianwen` / `lingguang` / `default`.
-- **Offline tests**:
+
+### Offline Tests
 
 ```bash
 python3 -m unittest discover -s tests
 ```
 
-## Documentation
+### Protocol & Reference Docs
 
 - [SKILL.md](SKILL.md): Host invocation and interaction rules
 - [references/protocol.md](references/protocol.md): Public API protocol
 - [references/presentation.md](references/presentation.md): Display and host adaptation
 - [references/authorization.md](references/authorization.md): Authorization, confirmation, and payment boundaries
+
+</details>
 
 ## License
 
@@ -104,7 +128,9 @@ python3 -m unittest discover -s tests
 ---
 
 <p align="center">
-  <a href="https://www.filtalgo.com/">Filtalgo Website</a> ·
+  <a href="https://www.filtalgo.com/">Website</a> ·
+  <a href="https://m.filtalgo.com/">Store</a> ·
   <a href="https://github.com/filtalgo/Filtmall-Shopping-Skill">GitHub</a> ·
-  <a href="https://skills.sh/filtalgo/Filtmall-Shopping-Skill">skills.sh</a>
+  <a href="https://www.skills.sh/filtalgo/filtmall-shopping-skill/filtmall-shopping">skills.sh</a> ·
+  <a href="https://skillhub.cn/skills/org-r0hb81co/filtmall-agentic-shopping">SkillHub</a>
 </p>
