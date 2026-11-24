@@ -7,39 +7,30 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/filtalgo/Filtmall-Shopping-Skill/releases"><img alt="Release" src="https://img.shields.io/github/v/release/filtalgo/Filtmall-Shopping-Skill?logo=github"></a>
-  <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/filtalgo/Filtmall-Shopping-Skill?logo=apache"></a>
-  <a href="SKILL.md"><img alt="Python" src="https://img.shields.io/badge/python-3.10%2B-3776AB?logo=python&logoColor=white"></a>
+  <a href="https://github.com/filtalgo/Filtmall-Shopping-Skill/releases"><img alt="Release" src="https://img.shields.io/badge/Release-v2.4.3-blue?logo=github"></a>
+  <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-Apache--2.0-2EA44F?logo=apache"></a>
+  <a href="SKILL.md"><img alt="Python" src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white"></a>
   <a href="https://github.com/filtalgo/Filtmall-Shopping-Skill"><img alt="Stars" src="https://img.shields.io/github/stars/filtalgo/Filtmall-Shopping-Skill?logo=github"></a>
-  <a href="https://github.com/filtalgo/Filtmall-Shopping-Skill/forks"><img alt="Forks" src="https://img.shields.io/github/forks/filtalgo/Filtmall-Shopping-Skill?logo=github"></a>
-  <a href="https://github.com/filtalgo/Filtmall-Shopping-Skill/graphs/contributors"><img alt="Contributors" src="https://img.shields.io/github/contributors/filtalgo/Filtmall-Shopping-Skill?logo=github"></a>
   <a href="https://skills.sh/filtalgo/Filtmall-Shopping-Skill"><img alt="skills.sh" src="https://skills.sh/b/filtalgo/Filtmall-Shopping-Skill"></a>
 </p>
 
-**筛电（Filtmall）**是一家**极致性价比的智能体电商平台**。本 Skill 将筛电的商品检索、成分与规格核对、同款比价、购物车、下单及售后能力直接接入你的 AI 助手——不用切换多个购物 App，也不用凑满减、翻评论，在对话里就能完成从挑货到购买的完整流程。商品信息、价格与库存以实际服务响应为准。
+**筛电（Filtmall）**是面向 **Personal Agent（个人智能体）** 的**平台级 Business Agent**，也是一家主打极致性价比的智能体电商平台。你的个人 AI 助手装上本 Skill 后，即可直接对接筛电后台的购物 Agent，在对话里完成选品、核对成分与规格、比价、下单和售后跟进——不用切多个 App，也不用自己翻评论凑满减。商品信息、价格与库存以实际服务响应为准。
 
 ## 为什么用筛电（Filtmall）
 
-筛电围绕两个核心设计：**智能体原生**与**极致性价比**。
+筛电围绕两个核心设计：**面向 Personal Agent 原生开放**与**极致性价比**。
 
-- **去中间商、零广告费，把价格打实**
-  在传统电商平台上，一件 100 元的商品除了生产成本，往往还要层层叠加多级经销商流通费、人工运营费，以及约 20 元的站内广告投流费。筛电去除传统经销商环节，**直连中国优质 OBM（自有品牌制造商）**，并且**不向商家出售广告位或流量**（长期仅按真实成交收取佣金）。把省下来的流通与投流成本留给商品品质和终端售价——筛电上大多数商品在同等规格下，价格约为传统电商平台的 **1/3—2/3**。
+- **原生向 Personal Agent 开放**：不与个人助手争夺 C 端入口，提供标准化的商品事实、比价参考与交易履约接口，让你的 AI 助手顺畅查货下单，不遇传统平台的反爬拦截。
+- **去中间商、零广告费，把价格打实**：直连中国优质 OBM（自有品牌制造商），省去多级经销加价，且不向商家卖广告位和流量——同等规格下，筛电多数商品价格约为传统电商平台的 **1/3—2/3**。
+- **不卖广告排名，按真实需求筛选**：排序只看需求匹配度与性价比，不看推广费；一句自然语言说清预算、规格和用途，几秒整理好单片均价、成分材质与推荐理由。
+- **严选把关，零门槛先逛再买**：上架前同时核验同规格价差及厂商资质、口碑或样品反馈（覆盖美妆个护、食品、箱包等日常品类并随用户需求持续扩充）；查货比价免注册、免 API Key，加购下单前逐项确认，付款走官方收银台。
 
-- **不卖广告排名，只按你的真实需求筛选**
-  传统货架和直播推荐容易受推广费影响；筛电从设计之初就面向 AI 智能体，**不出售广告排名，也不按佣金高低排序**。你只需像聊天一样说清预算、规格、用途和顾虑，AI 会在几秒内把分散的规格、单片/单位均价、成分材质与推荐理由整理清楚，帮你少花时间查资料、看懂为什么值得买。
-
-- **先过价格与品质两道关，信息透明有据可查**
-  低价不替代品质。商品上架前需同时核验同规格价格优势，以及制造商与品牌资质、口碑或样品试用反馈。展示商品时直接呈现价格、规格、成分/材质与可核验的同款比价参考，当前覆盖美妆个护、食品、箱包等日常高频品类并持续扩充。
-
-- **零门槛先逛再买，每一步交易由你确认**
-  查商品、看成分、做对比**无需注册、无需配置 API Key**，装好就能直接问；只有涉及购物车、地址、下单和售后等会员操作时才需要单独授权，写操作前会先复述确认，付款在官方收银台完成。
-
-| 对比维度 | 传统电商平台 | 筛电（Filtmall）智能体电商 |
+| 维度 | 传统电商平台 | 筛电（Filtmall） |
 | --- | --- | --- |
-| 怎么找商品 | 凑关键词、刷列表、算满减凑单 | 一句话说清预算、规格与用途，AI 几秒筛好算清 |
-| 排序逻辑 | 竞价广告与流量采买影响曝光 | 不卖广告排名，按需求匹配度与性价比排序 |
-| 价格构成 | 生产 + 多级经销 + 运营 + 广告投流 | 直连优质 OBM 工厂 + 零平台广告费（同规格多为 1/3—2/3） |
-| 决策依据 | 分散在多个详情页与评论区 | 集中呈现规格、成分/材质、推荐理由与同款比价参考 |
+| 接入方式 | 偏人工逛页，常拦截外部 AI 访问 | 原生面向 Personal Agent 开放接口 |
+| 排序逻辑 | 受竞价广告与流量采买影响 | 不卖广告排名，按匹配度与性价比排序 |
+| 价格来源 | 多级经销 + 站内广告投流 | 直连优质 OBM 工厂 + 零平台广告费 |
+| 决策效率 | 自己翻详情页、评论区与满减规则 | AI 几秒整理规格、成分与同款比价参考 |
 
 ## 前置条件
 

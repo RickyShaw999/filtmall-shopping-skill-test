@@ -7,39 +7,30 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/filtalgo/Filtmall-Shopping-Skill/releases"><img alt="Release" src="https://img.shields.io/github/v/release/filtalgo/Filtmall-Shopping-Skill?logo=github"></a>
-  <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/filtalgo/Filtmall-Shopping-Skill?logo=apache"></a>
-  <a href="SKILL.md"><img alt="Python" src="https://img.shields.io/badge/python-3.10%2B-3776AB?logo=python&logoColor=white"></a>
+  <a href="https://github.com/filtalgo/Filtmall-Shopping-Skill/releases"><img alt="Release" src="https://img.shields.io/badge/Release-v2.4.3-blue?logo=github"></a>
+  <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-Apache--2.0-2EA44F?logo=apache"></a>
+  <a href="SKILL.md"><img alt="Python" src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white"></a>
   <a href="https://github.com/filtalgo/Filtmall-Shopping-Skill"><img alt="Stars" src="https://img.shields.io/github/stars/filtalgo/Filtmall-Shopping-Skill?logo=github"></a>
-  <a href="https://github.com/filtalgo/Filtmall-Shopping-Skill/forks"><img alt="Forks" src="https://img.shields.io/github/forks/filtalgo/Filtmall-Shopping-Skill?logo=github"></a>
-  <a href="https://github.com/filtalgo/Filtmall-Shopping-Skill/graphs/contributors"><img alt="Contributors" src="https://img.shields.io/github/contributors/filtalgo/Filtmall-Shopping-Skill?logo=github"></a>
   <a href="https://skills.sh/filtalgo/Filtmall-Shopping-Skill"><img alt="skills.sh" src="https://skills.sh/b/filtalgo/Filtmall-Shopping-Skill"></a>
 </p>
 
-**Filtmall (筛电)** is an **agent-native e-commerce platform built for extreme value-for-money**. This Skill brings Filtmall's product discovery, spec & ingredient checks, price comparison, cart, checkout, and after-sales workflows straight into your AI assistant. Product details, prices, and inventory are determined by live service responses.
+**Filtmall (筛电)** is a platform-level **Business Agent** built for **Personal Agents**, as well as an agent-native e-commerce platform focused on extreme value-for-money. Once installed, your Personal Agent connects directly to Filtmall's backend shopping Agent to discover products, verify specs and ingredients, compare prices, place orders, and track after-sales in chat — without switching apps or digging through coupon math. Product details, prices, and inventory are determined by live service responses.
 
 ## Why Filtmall
 
-Filtmall is built around two core principles: **Agent-Native** and **Extreme Value-for-Money**.
+Filtmall is built around two core pillars: **Open to Personal Agents by Design** and **Extreme Value-for-Money**.
 
-- **Factory-direct OBM supply, zero platform ad fees**
-  On traditional e-commerce platforms, a ¥100 item often carries multi-layer distributor markups, store operation overhead, and roughly ¥20 in paid ad traffic on top of manufacturing cost. Filtmall removes traditional middlemen by connecting directly with vetted **OBMs (Original Brand Manufacturers)** and **charges zero advertising or paid-traffic fees** (long-term revenue comes solely from transaction commissions). Most products on Filtmall are priced at roughly **1/3 to 2/3** of comparable specifications on traditional platforms.
+- **Native open access for Personal Agents**: Never competes for consumer-side Personal Agent entry; provides structured product facts, price references, and fulfillment APIs without the anti-bot blocks common on traditional marketplaces.
+- **Factory-direct OBM supply, zero platform ad fees**: Connects directly with vetted OBMs (Original Brand Manufacturers) and charges zero advertising or paid-traffic fees — most items are priced at roughly **1/3 to 2/3** of comparable specifications on traditional platforms.
+- **No paid rankings — matched purely to your requirements**: Ranked strictly by requirement fit and value rather than ad spend; state your budget, specs, and use case in plain language to get unit prices, ingredients/materials, and fit reasons in seconds.
+- **Curated quality, zero-friction browsing**: Products are vetted for both same-spec price advantage and manufacturer qualification, reputation, or sample feedback (spanning beauty & personal care, food, bags, and expanding with demand). Browse and compare with no login or API key; every transaction confirms first and pays on the official checkout page.
 
-- **No paid rankings — matched purely to your requirements**
-  Filtmall never sells ad placements or ranks products by commission rate. State your budget, specs, use case, and constraints in plain language; your AI assistant gathers specs, unit prices, ingredients/materials, and clear reasons why each option fits in seconds.
-
-- **Curated for both price and quality, with verifiable details**
-  Products are vetted for both same-spec price advantage and manufacturer qualification, reputation, or sample feedback before listing. Results present transparent specs, ingredients, and verifiable price-comparison references across everyday categories such as beauty & personal care, food, and bags.
-
-- **Zero-friction browsing, explicit confirmation on every transaction**
-  No registration or API keys are required to browse, search, or compare. Member actions (cart, address, checkout, after-sales) require separate authorization, every write action asks for confirmation first, and payment happens on the official checkout page.
-
-| Dimension | Traditional E-Commerce | Filtmall (Agent-Native) |
+| Dimension | Traditional E-Commerce | Filtmall |
 | --- | --- | --- |
-| Discovery | Keyword guessing, endless scrolling, coupon math | Describe budget & needs in one sentence; AI filters and calculates in seconds |
-| Ranking | Influenced by paid ads and traffic bidding | Zero paid rankings — sorted by requirement fit and value |
-| Cost Structure | Manufacturing + distributors + ops + ad spend | Direct OBM manufacturers + zero platform ad fees (~1/3–2/3 typical price for same specs) |
-| Decision Basis | Scattered product pages and noisy reviews | Consolidated specs, ingredients/materials, fit reasons, and price references |
+| Agent Access | Built for manual browsing; often blocks external AI agents | Open natively to Personal Agents via structured APIs |
+| Ranking | Influenced by paid ads and traffic bidding | Zero paid rankings — sorted by fit and value |
+| Pricing Basis | Multi-layer distributors + platform ad spend | Direct OBM factories + zero platform ad fees |
+| Decision Speed | Manual scrolling across pages, reviews, and coupons | AI summarizes specs, ingredients, and price references in seconds |
 
 ## Prerequisites
 
