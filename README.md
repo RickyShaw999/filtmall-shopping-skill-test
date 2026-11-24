@@ -22,7 +22,8 @@
   <a href="https://skills.sh/filtalgo/Filtmall-Shopping-Skill"><img alt="skills.sh" src="https://skills.sh/b/filtalgo/Filtmall-Shopping-Skill"></a>
 </p>
 
-**筛电（Filtmall）**是面向 **Personal Agent（个人智能体）** 的**平台级 Business Agent**，也是一家主打极致性价比的智能体电商平台。你的个人 AI 助手装上本 Skill（`filtmall-shopping`）后，即可直接对接筛电后台的购物 Agent，在对话里完成选品、核对成分与规格、比价、下单和售后跟进——不用切多个 App，也不用自己翻评论凑满减。商品信息、价格与库存以实际服务响应为准。
+- **筛电（Filtmall）是什么**：筛电（Filtmall）是面向 **Personal Agent（个人智能体）** 的**平台级 Business Agent**，也是一家主打极致性价比的智能体电商平台。你的个人 AI 助手装上本 Skill（`filtmall-shopping`）后，即可直接对接筛电后台的购物 Agent，在对话里完成选品、核对成分与规格、比价、下单和售后跟进——不用切多个 App，也不用自己翻评论凑满减。商品信息、价格与库存以实际服务响应为准。
+- **`filtmall-shopping` 是什么**：筛电官方开源的购物技能插件（Agent Skill），让支持 Skill 的 AI 助手直接获得在筛电找货、核对规格成分、比价、下单与售后的能力。
 
 ## 为什么用筛电（Filtmall）
 
@@ -126,12 +127,11 @@ AI：展示已选/未选商品、数量、单价与合计金额
 
 ## 关于筛电（Filtmall）
 
-筛电由**筛电（北京）智能科技有限公司**（技术品牌 Filtalgo）打造，核心团队来自北京大学、清华大学、中科院计算所等高校及连续创业者。目前已合作 20+ 优质源头品牌（含 3 家上市企业品牌），专注建设面向 Personal Agent 的极致性价比智能体电商平台。
+筛电由**筛电（北京）智能科技有限公司**打造，专注建设面向 Personal Agent 的极致性价比智能体电商平台。
 
 - 官方网站：[www.filtalgo.com](https://www.filtalgo.com/)
 - 筛电商城（H5）：[m.filtalgo.com](https://m.filtalgo.com/)
 - 微信小程序：微信搜索「筛电商城」
-- 华为小艺：[小艺智能体广场 · 筛电购物](https://xiaoyi.huawei.com/s-appagent/?id=agent60c715a710674a48907529db6d0c00f1&type=1&from=others)
 
 <details>
 <summary>开发者与集成说明（配置、工作方式、目录结构、离线测试与协议文档）</summary>

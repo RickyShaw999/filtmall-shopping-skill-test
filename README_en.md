@@ -22,7 +22,8 @@
   <a href="https://skills.sh/filtalgo/Filtmall-Shopping-Skill"><img alt="skills.sh" src="https://skills.sh/b/filtalgo/Filtmall-Shopping-Skill"></a>
 </p>
 
-**Filtmall (筛电)** is a platform-level **Business Agent** built for **Personal Agents**, as well as an agent-native e-commerce platform focused on extreme value-for-money. Once installed, your Personal Agent connects via this Skill (`filtmall-shopping`) directly to Filtmall's backend shopping Agent to discover products, verify specs and ingredients, compare prices, place orders, and track after-sales in chat — without switching apps or digging through coupon math. Product details, prices, and inventory are determined by live service responses.
+- **What is Filtmall**: **Filtmall (筛电)** is a platform-level **Business Agent** built for **Personal Agents**, as well as an agent-native e-commerce platform focused on extreme value-for-money. Once installed, your Personal Agent connects via this Skill (`filtmall-shopping`) directly to Filtmall's backend shopping Agent to discover products, verify specs and ingredients, compare prices, place orders, and track after-sales in chat — without switching apps or digging through coupon math. Product details, prices, and inventory are determined by live service responses.
+- **What is `filtmall-shopping`**: Filtmall's official open-source shopping Agent Skill, giving Skill-enabled AI assistants direct capabilities to search products, check specs and ingredients, compare prices, place orders, and handle after-sales on Filtmall.
 
 ## Why Filtmall
 
@@ -95,12 +96,11 @@ Available capabilities depend on the target Agent configuration, business servic
 
 ## About Filtmall
 
-Filtmall is built by **Filtmall (Beijing) Intelligent Technology Co., Ltd.** (technical brand: Filtalgo) by a founding team from Peking University, Tsinghua University, the Chinese Academy of Sciences, and serial e-commerce entrepreneurs. Currently partnered with 20+ vetted source brands (including 3 publicly listed companies), Filtmall is building an extreme value-for-money agent-native e-commerce platform for Personal Agents.
+Filtmall is built by **Filtmall (Beijing) Intelligent Technology Co., Ltd.**, dedicated to building an extreme value-for-money agent-native e-commerce platform for Personal Agents.
 
 - Website: [www.filtalgo.com](https://www.filtalgo.com/)
 - Web Store (H5): [m.filtalgo.com](https://m.filtalgo.com/)
 - WeChat Mini-Program: Search "筛电商城" in WeChat
-- Huawei Xiaoyi: [Xiaoyi Agent Store · Filtmall Shopping](https://xiaoyi.huawei.com/s-appagent/?id=agent60c715a710674a48907529db6d0c00f1&type=1&from=others)
 
 <details>
 <summary>Developer & Integration Guide (Configuration, Architecture, Tests & Protocol Docs)</summary>
